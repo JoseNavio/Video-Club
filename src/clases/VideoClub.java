@@ -4,11 +4,10 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
-import java.io.ObjectOutput;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
-import java.util.Arrays;
 import java.util.Iterator;
+import java.util.Scanner;
 import java.util.Set;
 import java.util.TreeSet;
 import peliculaFactory.GetPeliculaFactory;
@@ -108,7 +107,8 @@ public class VideoClub implements Serializable {
             Pelicula nuevaPelicula = GetPeliculaFactory.getPelicula(titulo, categoria);
 
             peliculas.add(nuevaPelicula);
-////////////////////////////////////////////////////////////
+
+            //Peliculas a ficheros...
             try {
 
                 ObjectOutputStream registrandoPelicula = new ObjectOutputStream(new FileOutputStream("peliculas.txt", true));
@@ -167,6 +167,64 @@ public class VideoClub implements Serializable {
         }
 
         return null;
+    }
+
+    //Acaba con la condición de estreno de una pelicula
+    public void terminarEstreno(String titulo) {
+
+        Pelicula estreno = getPelicula(titulo);
+
+        //Si se confirma que la película es un estreno...
+        if (estreno != null && estreno.getCategoria().equals(Categoria.ESTRENO)) {
+
+            //Elige la nueva categoría de la película
+            System.out.println("");
+            System.out.println("Convertir la película al tipo: \n"
+                    + "1. Normal \n"
+                    + "2. Infantil \n");
+
+            Scanner s = new Scanner(System.in);
+
+            int eleccion = 1;
+
+            try {
+
+                eleccion = s.nextInt();
+                s.nextLine();
+
+            } catch (Exception e) {
+
+                eleccion = 0;
+                
+                System.out.print("No existe tal elección. ");
+            }
+
+            switch (eleccion) {
+                case 1:
+                    addPelicula(titulo, Categoria.NORMAL);
+
+                    //Borramos anterior película
+                    delPelicula(titulo);
+
+                    System.out.println("Se cambió la categoría.");
+                    break;
+                case 2:
+                    addPelicula(titulo, Categoria.INFANTIL);
+
+                    //Borramos anterior película
+                    delPelicula(titulo);
+
+                    System.out.println("Se cambió la categoría.");
+                    break;
+                default:
+                    System.out.println("No se modificó la película.");
+                    break;
+            }
+
+        } else {
+
+            System.out.println("No existe tal estreno.");
+        }
     }
 
     //Serializacion

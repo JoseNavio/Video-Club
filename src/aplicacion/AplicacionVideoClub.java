@@ -9,10 +9,10 @@ import java.util.Scanner;
 
 /**
  * Main
- * 
+ *
  * Aplicacion Video Club
  *
- * @author Jose L. Navío Mendoza 
+ * @author Jose L. Navío Mendoza
  */
 public class AplicacionVideoClub extends Object {
 
@@ -63,6 +63,9 @@ public class AplicacionVideoClub extends Object {
                     mostrarColeccion(v.getPeliculas());
                     break;
                 case 10:
+                    terminarEstreno();
+                    break;
+                case 11:
                     salir = true;
                     break;
                 default:
@@ -87,7 +90,8 @@ public class AplicacionVideoClub extends Object {
                 + "7.Mostrar informe de un cliente.\n"
                 + "8.Mostrar clientes.\n"
                 + "9.Mostrar películas.\n"
-                + "10.Salir\n");
+                + "10.Terminar estreno.\n"
+                + "11.Salir.\n");
 
         try {
 
@@ -102,7 +106,7 @@ public class AplicacionVideoClub extends Object {
             System.out.println("");
         }
 
-        return 10;
+        return 11;
     }
 
     //Añade un cliente
@@ -160,6 +164,7 @@ public class AplicacionVideoClub extends Object {
         String titulo = s.nextLine();
         System.out.println("");
 
+        //Se selecciona el tipo de película       
         System.out.print("Categoria de la película a añadir: \n"
                 + "1.Normal\n"
                 + "2.Estreno\n"
@@ -173,6 +178,7 @@ public class AplicacionVideoClub extends Object {
 
         } catch (Exception e) {
 
+            System.out.println("No se pudo añadir la película.");
         }
 
         Categoria categoria = Categoria.NORMAL;
@@ -191,6 +197,7 @@ public class AplicacionVideoClub extends Object {
         }
         System.out.println("");
 
+        //Se añade la película
         try {
 
             boolean respuesta = v.addPelicula(titulo, categoria);
@@ -301,5 +308,14 @@ public class AplicacionVideoClub extends Object {
         if (!listaPopulada) {
             System.out.println("Aún no hay ningún registro.");
         }
+    }
+    
+    //Terminar estreno
+    private static void terminarEstreno(){
+        
+        System.out.print("Terminar la condición de estreno de la película: ");
+        String estreno = s.nextLine();
+        
+        v.terminarEstreno(estreno);
     }
 }
